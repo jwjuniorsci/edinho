@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioMaquinasServicos_subreport" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2f74cf7b-4c01-46bf-9990-94ff5e6a5d06">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="qtdTotal" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="totalAbsoluto" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     sum(itemrelatorio."vlrtotal") AS total,
+     sum(itemrelatorio."qtdmh") AS qtdmh,
+     itemrelatorio."id" AS itemrelatorio_id,
+     itemrelatorio."canatipo" AS itemrelatorio_canatipo,
+     itemrelatorio."cultura" AS itemrelatorio_cultura,
+     itemrelatorio."dataserv" AS itemrelatorio_dataserv,
+     itemrelatorio."qtdmh" AS itemrelatorio_qtdmh,
+     itemrelatorio."relseg" AS itemrelatorio_relseg,
+     itemrelatorio."rorigem" AS itemrelatorio_rorigem,
+     itemrelatorio."servico" AS itemrelatorio_servico,
+     itemrelatorio."uni" AS itemrelatorio_uni,
+     itemrelatorio."vlrdesc" AS itemrelatorio_vlrdesc,
+     itemrelatorio."vlrmhora" AS itemrelatorio_vlrmhora,
+     itemrelatorio."vlrtotal" AS itemrelatorio_vlrtotal,
+     itemrelatorio."relatorio_id" AS itemrelatorio_relatorio_id,
+     itemrelatorio."kmfim" AS itemrelatorio_kmfim,
+     itemrelatorio."kminicio" AS itemrelatorio_kminicio
+FROM
+     "public"."itemrelatorio" itemrelatorio
+WHERE
+     itemrelatorio."relatorio_id" = $P{id}
+GROUP BY
+     itemrelatorio."id"]]>
+	</queryString>
+	<field name="total" class="java.math.BigDecimal"/>
+	<field name="qtdmh" class="java.math.BigDecimal"/>
+	<field name="itemrelatorio_id" class="java.lang.Long"/>
+	<field name="itemrelatorio_canatipo" class="java.lang.String"/>
+	<field name="itemrelatorio_cultura" class="java.lang.String"/>
+	<field name="itemrelatorio_dataserv" class="java.sql.Date"/>
+	<field name="itemrelatorio_qtdmh" class="java.math.BigDecimal"/>
+	<field name="itemrelatorio_relseg" class="java.math.BigDecimal"/>
+	<field name="itemrelatorio_rorigem" class="java.lang.String"/>
+	<field name="itemrelatorio_servico" class="java.lang.String"/>
+	<field name="itemrelatorio_uni" class="java.lang.String"/>
+	<field name="itemrelatorio_vlrdesc" class="java.math.BigDecimal"/>
+	<field name="itemrelatorio_vlrmhora" class="java.math.BigDecimal"/>
+	<field name="itemrelatorio_vlrtotal" class="java.math.BigDecimal"/>
+	<field name="itemrelatorio_relatorio_id" class="java.lang.Long"/>
+	<field name="itemrelatorio_kmfim" class="java.lang.String"/>
+	<field name="itemrelatorio_kminicio" class="java.lang.String"/>
+	<variable name="total_1" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField>
+				<reportElement x="156" y="1" width="37" height="11" uuid="585d85ce-0b01-472b-a2b6-d6a2c6dc87ee"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemrelatorio_canatipo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="8" y="1" width="100" height="11" uuid="be7107ee-41b0-448a-9793-4705baf00d64"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemrelatorio_servico}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="292" y="1" width="34" height="11" uuid="743cecb3-63bf-48d6-8ce9-d2842e25434a"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemrelatorio_dataserv}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="326" y="1" width="54" height="11" uuid="3adbdd19-2cb6-433b-8dd0-d5cdda532824"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemrelatorio_rorigem}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="1" width="54" height="11" uuid="a86d9a7f-5d8c-47c6-b0b3-d08d5ffa486e"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemrelatorio_cultura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="434" y="1" width="21" height="11" uuid="574a1527-4792-4df9-8169-e0d8d41e4231"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemrelatorio_uni}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="532" y="1" width="52" height="11" uuid="184a7f51-0be9-45f3-8346-7359f7a40f3d"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemrelatorio_qtdmh}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="584" y="1" width="52" height="11" uuid="bbcd291c-6dd3-4480-8dea-b6f6132283ee"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemrelatorio_vlrmhora}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="636" y="1" width="46" height="11" uuid="80eadc69-7a9d-488b-bb61-2974223b31dd"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemrelatorio_vlrdesc}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="682" y="1" width="46" height="11" uuid="c85030c9-e856-47e0-9a40-d391cae2b594"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemrelatorio_relseg}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="728" y="1" width="72" height="11" uuid="b45855de-fcf5-40dc-b1ac-b1ed1f544322"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemrelatorio_vlrtotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="1" width="38" height="11" uuid="8da59eb1-2ce2-4796-84ed-0be8c0876271"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemrelatorio_kminicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="493" y="1" width="39" height="11" uuid="65b0ce9a-4fba-4b31-9918-4628fc52e513"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemrelatorio_kmfim}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="332" y="7" width="100" height="12" uuid="573b1e68-a8e7-4103-bc8e-dd993f638cce"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Equipamento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="502" y="8" width="98" height="11" uuid="99d0d51b-95fe-40ac-9d98-f716d6ab1dcf"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Propriedade:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="670" y="7" width="29" height="12" uuid="a50c6c33-3d9a-4a82-8b49-65738383b67f"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="5" width="801" height="1" uuid="b42023df-b040-48c5-ab46-ce967b7f6e1a"/>
+			</line>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="432" y="8" width="69" height="11" uuid="b58880e9-c87e-4c30-8800-44cf48f7c028"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{qtdTotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="600" y="7" width="70" height="12" uuid="93e4f86f-1993-4621-9969-e84a75ed34da"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{qtdTotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="699" y="6" width="103" height="13" uuid="986efa4d-193a-43fb-9ffa-e2a5ced91902"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalAbsoluto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

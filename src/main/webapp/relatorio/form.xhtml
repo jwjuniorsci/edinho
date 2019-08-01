@@ -1,0 +1,264 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Relatorios</ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#FFC107', '#03A9F4'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#EEEEEE',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#212121'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-lg-12">
+                <!-- Left Side -->
+                <div class="card card-w-title">
+                    <h:form id="form">
+                        <h1>Venda</h1>
+                        <p:growl showDetail="true" id="growl" sticky="true"/> 
+                        <p:messages showDetail="true" autoUpdate="true" closable="true" />
+                        <p:tabView>
+                            <p:tab title="Dados">
+                                <br/>
+                                <!--<div class="row" style="margin-left: 5px;">
+                                    <h:panelGroup styleClass="md-inputfield">
+                                        <p:selectBooleanCheckbox id="ativo" value="{relatorioControle.relatorio.emitir}"/>
+                                        <label style="margin-left: 14px;">Emitir NFC-e</label>
+                                    </h:panelGroup>
+                                </div><br/> -->
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="cooperado" value="#{relatorioControle.relatorio.cooperado}"/>
+                                            <label>Cooperado</label>
+                                        </h:panelGroup>
+                                    </div>  
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText  id="tipoCana" value="#{relatorioControle.relatorio.tipoCana}"/>
+                                            <label>Tipo Cana</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-5">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:autoComplete id="equipamento" value="#{relatorioControle.relatorio.equipamento}"
+                                                            converter="#{equipamentoControle.converter()}"
+                                                            completeMethod="#{equipamentoControle.autoCompleteList}"
+                                                            var="equipamento" itemLabel="#{equipamento.nome}" itemValue="#{equipamento}"
+                                                            maxResults="10" forceSelection="true"
+                                                            emptyMessage="Nenhum Equipamento encontrado."/>
+                                            <label>Equipamento</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-5">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:autoComplete id="sitio" value="#{relatorioControle.relatorio.sitio}"
+                                                            converter="#{sitioControle.converter()}"
+                                                            completeMethod="#{sitioControle.autoCompleteList}"
+                                                            var="sitio" itemLabel="#{sitio.nome}" itemValue="#{sitio}"
+                                                            maxResults="10" forceSelection="true"
+                                                            emptyMessage="Nenhum Local encontrado."/>
+                                            <label>Local</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText  id="vlrEquipProp" value="#{relatorioControle.relatorio.vlrEquipProp}"/>
+                                            <label>Total Equipamento</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+                                <div class="row" style="float: right; margin-top: -20px;">
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-7" style="float: right;">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText value="#{relatorioControle.relatorio.vlrTotal}"
+                                                         id="total" style="font-family: 'Rubik Mono One', sans-serif; color:#31ce18;
+                                                         font-size: 24px; text-align: right; margin-top: -60px; background: #ffffff;" disabled="true">
+                                                <f:convertNumber minFractionDigits="2"  maxFractionDigits="2" type="currency"  currencySymbol="R$"/> 
+                                            </p:inputText>
+                                            <label>Valor Total</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+                            </p:tab>
+                            <p:tab title="Serviços"><br/>
+                                <p:growl showDetail="true" id="growl2" sticky="true"/>
+                                <div class="row">
+                                    <div class="col-xs-11 col-sm-11 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="serv" value="#{relatorioControle.itemRelatorio.servico}"/>
+                                            <label>Serviço</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-11 col-sm-11 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="cana" value="#{relatorioControle.itemRelatorio.canaTipo}"/>
+                                            <label>Tipo Cana</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-11 col-sm-11 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:calendar id="data" value="#{relatorioControle.itemRelatorio.dataserv}"/>
+                                            <label>Data</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-11 col-sm-11 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="rorigem" value="#{relatorioControle.itemRelatorio.rorigem}"/>
+                                            <label>R. Origem</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="cultura" value="#{relatorioControle.itemRelatorio.cultura}"/>
+                                            <label>Cultura</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="uni" value="#{relatorioControle.itemRelatorio.uni}"/>
+                                            <label>Uni</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="qtdmh" value="#{relatorioControle.itemRelatorio.qtdMh}"/>
+                                            <label>Qtd. M/H</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText  id="vlrmhora" value="#{relatorioControle.itemRelatorio.vlrMhora}"/>
+                                            <label>Vlr M/Hora</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText  id="vlrdesc" value="#{relatorioControle.itemRelatorio.vlrDesc}"/>
+                                            <label>Vlr Desc.</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText  id="relseg" value="#{relatorioControle.itemRelatorio.relSeg}"/>
+                                            <label>Rel. Seg</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText  id="kmIni" value="#{relatorioControle.itemRelatorio.kmInicio}"/>
+                                            <label>Km Inicio</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText  id="kmFim" value="#{relatorioControle.itemRelatorio.kmFim}"/>
+                                            <label>Km Fim</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <p:commandButton value="Adicionar" style="width:auto;margin-bottom:10px;"
+                                                         styleClass="cyan-btn" icon="ui-icon-add-circle" 
+                                                         update="total,serv,cana,data,rorigem,cultura,uni,qtdmh,vlrmhora,vlrdesc,relseg,tabela,growl2"
+                                                         actionListener="#{relatorioControle.addItem()}" ajax="true"/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <p:dataTable id="tabela" value="#{relatorioControle.relatorio.itemRelatorio}"
+                                                     var="ic" emptyMessage="Nenhum Item adicionado">
+                                            <p:column headerText="Serviço">
+                                                <h:outputText value="#{ic.servico}"/>
+                                            </p:column>
+                                            <p:column headerText="Qtd. M/H">
+                                                <h:outputText value="#{ic.qtdMh}"/>
+                                            </p:column>
+                                            <p:column headerText="Valor Hora">
+                                                <h:outputText value="#{ic.vlrMhora}">
+                                                    <f:convertNumber minFractionDigits="2"  maxFractionDigits="2" type="currency"  currencySymbol="R$"/> 
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Subtotal" style="color: #C62828;">
+                                                <h:outputText value="#{ic.vlrTotal}">
+                                                    <f:convertNumber minFractionDigits="2"  maxFractionDigits="2" type="currency"  currencySymbol="R$"/> 
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Operações">
+                                                <p:commandButton id="btnExcluir" icon="ui-icon-delete-forever" actionListener="#{relatorioControle.removeItem(ic)}"
+                                                                 ajax="false" update="total,tabela,growl2"/>
+                                                <p:tooltip for="btnExcluir" value="Excluir item do relatorio" position="top"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
+                                </div>
+                            </p:tab>
+                            <br/><br/>
+
+                            <!--</p:panelGrid>-->
+                        </p:tabView>
+
+                        <div class="row" style="margin-left: 5px; margin-top: 30px;">
+                            <p:commandButton  value="Salvar" style="width:auto;margin-bottom:10px;
+                                              margin-top: -10px;" update="growl" action="list.xhtml"
+                                              styleClass="green-btn" icon="ui-icon-save"
+                                              actionListener="#{relatorioControle.salvar()}"/>
+                            <p:commandButton  value="Cancelar" style="width:auto;margin-bottom:10px;
+                                              margin-top: -10px;"
+                                              styleClass="red-btn" icon="ui-icon-home"
+                                              action="list.xhtml"/>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+
